@@ -41,4 +41,4 @@ fi
 
 echo "Запуск ComfyUI..."
 cd /root/ComfyUI
-python main.py --listen 0.0.0.0 --port 3000
+python main.py --listen 0.0.0.0 --port 8188
