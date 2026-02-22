@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "Клонирование кастомных нод..."
+mkdir -p /workspace/ComfyUI/custom_nodes
 cd /workspace/ComfyUI/custom_nodes
 
 if [ ! -d "sf-copy-photo-nodes" ]; then
@@ -8,6 +9,10 @@ if [ ! -d "sf-copy-photo-nodes" ]; then
 fi
 
 echo "Скачивание моделей..."
+mkdir -p /workspace/ComfyUI/models/diffusion_models
+mkdir -p /workspace/ComfyUI/models/text_encoders
+mkdir -p /workspace/ComfyUI/models/vae
+mkdir -p /workspace/ComfyUI/models/loras
 
 if [ ! -f "/workspace/ComfyUI/models/diffusion_models/z_image_turbo_bf16.safetensors" ]; then
     wget -q --show-progress -O /workspace/ComfyUI/models/diffusion_models/z_image_turbo_bf16.safetensors \
@@ -38,7 +43,3 @@ if [ ! -f "/workspace/ComfyUI/models/vae/qwen_image_vae.safetensors" ]; then
     wget -q --show-progress -O /workspace/ComfyUI/models/vae/qwen_image_vae.safetensors \
     "https://huggingface.co/Comfy-Org/Qwen-Image_ComfyUI/resolve/main/split_files/vae/qwen_image_vae.safetensors"
 fi
-
-echo "Запуск ComfyUI..."
-cd /workspace/ComfyUI
-python main.py --listen 0.0.0.0 --port 3001
