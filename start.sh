@@ -40,5 +40,5 @@ if [ ! -f "/workspace/ComfyUI/models/vae/qwen_image_vae.safetensors" ]; then
 fi
 
 echo "Запуск ComfyUI..."
-cd /root/ComfyUI
+cd /workspace/ComfyUI
 python main.py --listen 0.0.0.0 --port 3001
