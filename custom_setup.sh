@@ -2,39 +2,33 @@
 
 echo "=== Custom setup: начало ==="
 
-
 if [ ! -d "/workspace/ComfyUI" ]; then
-    echo "ОШИБКА: /workspace/ComfyUI не найден! Что-то пошло не так с синхронизацией."
+    echo "ОШИБКА: /workspace/ComfyUI не найден!"
     exit 1
 fi
 
-# ============================================================
-# 1. Клонирование кастомных нод из приватного репозитория
-# ============================================================
-echo "Клонирование кастомных нод..."
-mkdir -p /workspace/ComfyUI/custom_nodes
 cd /workspace/ComfyUI/custom_nodes
 
+# ============================================================
+# 1. Приватный репозиторий 
+# ============================================================
 if [ ! -d "sf-copy-photo-nodes" ]; then
     if [ -z "$GITHUB_TOKEN" ]; then
-        echo "ОШИБКА: переменная GITHUB_TOKEN не задана! Приватный репозиторий не будет склонирован."
+        echo "ОШИБКА: GITHUB_TOKEN не задан!"
     else
+        echo "  -> Клонирование sf-copy-photo-nodes (приватный)..."
         git clone https://${GITHUB_TOKEN}@github.com/Pabbbel/ComfyUI-SFRealCopy.git sf-copy-photo-nodes
 
-        # Установка зависимостей кастомных нод (если есть)
         if [ -f "sf-copy-photo-nodes/requirements.txt" ]; then
-            echo "Установка зависимостей кастомных нод..."
             source /workspace/ComfyUI/venv/bin/activate
-            pip install -r /workspace/ComfyUI/custom_nodes/sf-copy-photo-nodes/requirements.txt
+            pip install -r sf-copy-photo-nodes/requirements.txt --quiet
             deactivate
         fi
     fi
-else
-    echo "Кастомные ноды уже существуют, пропуск."
 fi
 
 # ============================================================
-# 2. Скачивание моделей
+# 2. Скачивание моделей 
 # ============================================================
 echo "Скачивание моделей..."
 mkdir -p /workspace/ComfyUI/models/diffusion_models
